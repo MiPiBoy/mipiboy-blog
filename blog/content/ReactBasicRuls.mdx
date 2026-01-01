@@ -1,0 +1,252 @@
+---
+title: "React Basic Ruls documents"
+description: "Morteza Aghaei React Basic Ruls documents."
+date: "2026-01-01"
+tags: ["Documents", "React"]
+featured: true
+readTime: "10 min read"
+author: "mortezaAghaei"
+thumbnail: "/thumbnails/react.webp"
+dir: "rtl"
+---
+
+# اصول اولیه React - توضیح ساده و کاربردی 
+
+## ۳. **Props و State**
+### Props (ویژگی‌ها)
+```jsx
+// پدر → فرزند
+<Child name="علی" age={20} />
+
+// فرزند
+function Child(props) {
+  return <p>نام: {props.name}, سن: {props.age}</p>;
+}
+```
+- **یک‌طرفه** (Parent → Child)
+- **تغییرناپذیر** (Immutable)
+- مثل **پارامتر تابع**
+
+### State (حالت)
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div>
+      <p>شمارش: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        افزایش
+      </button>
+    </div>
+  );
+}
+```
+- **داخلی** کامپوننت
+- **تغییرپذیر** با setState
+- با تغییر state، کامپوننت دوباره رندر می‌شود
+
+---
+
+## ۴. **Virtual DOM و Reconciliation**
+### مثل نقشه‌ی یک شهر:
+
+| DOM واقعی | Virtual DOM |
+|-----------|-------------|
+| ساختمان‌های فیزیکی | نقشه‌ی شهر |
+| تغییر سخت و کند | تغییر سریع روی کاغذ |
+| مستقیماً با کاربر تعامل | فقط نقشه‌ی راهنما |
+
+**فرآیند کار:**
+1. تغییر state
+2. ساخت Virtual DOM جدید
+3. مقایسه با نسخه قبلی **(Diffing)**
+4. فقط تغییرات لازم به DOM واقعی اعمال می‌شود
+
+```jsx
+// قبل
+<div>
+  <p>آیتم ۱</p>
+  <p>آیتم ۲</p>
+</div>
+
+// بعد (فقط آیتم ۳ اضافه شد)
+<div>
+  <p>آیتم ۱</p>
+  <p>آیتم ۲</p>
+  <p>آیتم ۳</p> {/* فقط این به DOM واقعی اضافه می‌شود */}
+</div>
+```
+
+---
+
+## ۵. **Conditional Rendering**
+### چند روش برای شرطی کردن نمایش:
+
+```jsx
+// ۱. با if ساده
+function Greeting({ isLoggedIn }) {
+  if (isLoggedIn) {
+    return <h1>خوش آمدید!</h1>;
+  }
+  return <h1>لطفا وارد شوید.</h1>;
+}
+
+// ۲. با عملگر ternary
+function Message({ hasError }) {
+  return (
+    <div>
+      {hasError ? (
+        <p className="error">خطا!</p>
+      ) : (
+        <p className="success">موفق!</p>
+      )}
+    </div>
+  );
+}
+
+// ۳. با عملگر &&
+function Notification({ messages }) {
+  return (
+    <div>
+      {messages.length > 0 && (
+        <p>شما {messages.length} پیام جدید دارید</p>
+      )}
+    </div>
+  );
+}
+```
+
+---
+
+## ۶. **Lists و Keys**
+### نمایش لیست‌ها:
+
+```jsx
+function ShoppingList() {
+  const items = ['شیر', 'نان', 'تخم مرغ'];
+  
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{item}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### **چرا Key مهم است؟**
+```jsx
+// ❌ بدون key - React نمی‌تواند تغییرات را تشخیص دهد
+items.map(item => <li>{item}</li>)
+
+// ✅ با key - React می‌داند هر آیتم چیست
+items.map((item, index) => <li key={index}>{item}</li>)
+// یا بهتر:
+items.map(item => <li key={item.id}>{item.name}</li>)
+```
+
+**قوانین Key:**
+1. **یکتا** در بین siblings
+2. **ثابت** (نه random، نه index*)
+3. بهتر است از **ID داده** استفاده شود
+
+---
+
+## ۷. **Event Handling**
+### تفاوت با HTML معمولی:
+
+| HTML معمولی | React |
+|-------------|-------|
+| `onclick="handle()"` | `onClick={handle}` |
+| `return false` برای جلوگیری | `e.preventDefault()` |
+| Event در global scope | Event در component scope |
+
+### مثال‌ها:
+```jsx
+function Button() {
+  // ۱. تعریف تابع
+  function handleClick() {
+    console.log('کلیک شد!');
+  }
+  
+  // ۲. با arrow function
+  const handleMouseEnter = () => {
+    console.log('ماوس وارد شد');
+  };
+  
+  return (
+    <button 
+      onClick={handleClick}
+      onMouseEnter={handleMouseEnter}
+      onDoubleClick={() => console.log('دابل کلیک!')}
+    >
+      کلیک کن
+    </button>
+  );
+}
+```
+
+### ارسال پارامتر به Event Handler:
+```jsx
+function ItemList() {
+  const items = ['آیتم ۱', 'آیتم ۲', 'آیتم ۳'];
+  
+  const handleDelete = (itemName) => {
+    console.log(`حذف ${itemName}`);
+  };
+  
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item}>
+          {item}
+          <button onClick={() => handleDelete(item)}>
+            حذف
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### Event Object:
+```jsx
+function Form() {
+  const handleSubmit = (e) => {
+    e.preventDefault(); // جلوگیری از refresh صفحه
+    console.log('فرم ارسال شد');
+  };
+  
+  const handleChange = (e) => {
+    console.log('مقدار جدید:', e.target.value);
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text" 
+        onChange={handleChange}
+      />
+      <button type="submit">ارسال</button>
+    </form>
+  );
+}
+```
+
+---
+
+## **جمع‌بندی سریع:**
+
+| مفهوم | کاربرد | مثال |
+|--------|---------|------|
+| **کامپوننت** | بلوک‌های سازنده UI | `function Button() { ... }` |
+| **JSX** | HTML در JavaScript | `<h1>سلام {name}</h1>` |
+| **Props** | داده از والد به فرزند | `<Child name="علی" />` |
+| **State** | داده داخلی کامپوننت | `const [count, setCount] = ...` |
+| **Virtual DOM** | بهینه‌سازی رندر | React خودش مدیریت می‌کند |
+| **Conditional** | نمایش شرطی | `{isLogged && <Menu />}` |
+| **Lists** | نمایش آرایه‌ها | `{items.map(item => ...)}` |
+| **Events** | مدیریت رویدادها | `onClick={handleClick}` |

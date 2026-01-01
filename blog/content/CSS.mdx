@@ -1,0 +1,179 @@
+---
+title: "CSS documents"
+description: "Morteza Aghaei CSS documents."
+date: "2026-01-01"
+tags: ["Documents", "CSS"]
+featured: true
+readTime: "10 min read"
+author: "mortezaAghaei"
+thumbnail: "/thumbnails/css.webp"
+dir: "rtl"
+---
+
+# سی اس اس (CSS)
+
+CSS (شیوه‌نامه آبشاری) زبانی برای استایل‌دهی به اسناد HTML است. CSS نحوه نمایش عناصر HTML را تعریف می‌کند.
+
+---
+
+> 📚 **منابع برای مشاهده لیست کامل:**  
+> - **MDN CSS Reference**:  
+  [https://developer.mozilla.org/en-US/docs/Web/CSS/Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+> - **CSS-Tricks Almanac**:  
+  [https://css-tricks.com/almanac/](https://css-tricks.com/almanac/)
+
+---
+
+## مفاهیم پایه
+
+### ساختار کلی
+```css
+selector {
+  property: value;
+}
+```
+
+### انواع سلکتورها
+1. **سلکتور عنصر** - `p { ... }`
+2. **سلکتور کلاس** - `.classname { ... }`
+3. **سلکتور ID** - `#idname { ... }`
+4. **سلکتور جهانی** - `* { ... }`
+5. **سلکتور ترکیبی** - `div.classname { ... }`
+
+### مدل جعبه‌ای (Box Model)
+- `width` - عرض
+- `height` - ارتفاع
+- `padding` - فضای داخلی
+- `border` - حاشیه
+- `margin` - فضای خارجی
+
+## ویژگی‌های متداول
+
+### متن و فونت
+- `font-family` - نوع فونت
+- `font-size` - اندازه فونت
+- `color` - رنگ متن
+- `text-align` - تراز متن
+- `line-height` - ارتفاع خط
+#### مثال
+  
+`text-align: justify:` - متن را به گونه‌ای تنظیم می‌کند که هر سطر (به جز احتمالاً آخرین سطر) از لبه چپ تا راست بلوک کشیده شود.
+
+### رنگ و پس‌زمینه
+- `background-color` - رنگ پس‌زمینه
+- `background-image` - تصویر پس‌زمینه
+- `background-size` - اندازه پس‌زمینه
+- `background-position` - موقعیت پس‌زمینه
+
+### موقعیت‌یابی
+- `position` - نوع موقعیت‌یابی (static, relative, absolute, fixed, sticky)
+- `top`, `right`, `bottom`, `left` - موقعیت
+- `z-index` - ترتیب لایه‌ها
+### `vertical-align` - کنترل تراز عمودی عناصر  
+- مقادیر پرکاربرد :  
+- **`baseline`** (پیش‌فرض): تراز با خط پایه متن  
+- **`top`**: تراز با بالاترین نقطه عنصر مجاور  
+- **`middle`**: تراز با وسط عنصر والد  
+- **`bottom`**: تراز با پایین‌ترین نقطه عنصر مجاور  
+- **`text-top`** / **`text-bottom`**: تراز با بالا/پایین متن والد  
+- **مقادیر عددی**: مثلاً `vertical-align: 10px` یا `-5px` (جابه‌جایی نسبی)  
+
+## لایه‌بندی مدرن
+
+### Flexbox
+```css
+.container {
+  display: flex;
+  justify-content: center; /* تراز افقی */
+  align-items: center; /* تراز عمودی */
+  flex-direction: row; /* جهت */
+}
+```
+
+### CSS Grid
+```css
+.container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr; /* ستون‌ها */
+  grid-template-rows: 100px auto; /* سطرها */
+  gap: 10px; /* فاصله */
+}
+```
+
+## طراحی واکنش‌گرا
+
+### Media Queries
+```css
+@media (max-width: 768px) {
+  body {
+    background-color: lightblue;
+  }
+}
+```
+
+### واحدهای اندازه‌گیری
+- `px` - پیکسل
+- `%` - درصد
+- `em` - نسبت به فونت والد
+- `rem` - نسبت به فونت ریشه
+- `vw`, `vh` - درصد از عرض/ارتفاع ویوپورت
+
+## مفاهیم پیشرفته
+
+### متغیرها (CSS Variables)
+```css
+:root {
+  --main-color: #3498db;
+}
+body {
+  background-color: var(--main-color);
+}
+```
+
+### انیمیشن‌ها
+```css
+@keyframes example {
+  from {background-color: red;}
+  to {background-color: yellow;}
+}
+div {
+  animation: example 5s infinite;
+}
+```
+
+### ترنزیشن‌ها
+```css
+div {
+  transition: all 0.3s ease;
+}
+div:hover {
+  transform: scale(1.1);
+}
+```
+
+### سایه‌ها
+- `text-shadow` - سایه متن
+- `box-shadow` - سایه جعبه
+
+## بهترین روش‌ها
+1. استفاده از کلاس‌های معنادار
+2. سازماندهی کد با روش‌هایی مثل BEM
+3. استفاده از پیش‌پردازنده‌ها (Sass, Less)
+4. بهینه‌سازی برای عملکرد
+5. سازگاری با مرورگرهای مختلف
+
+## منابع یادگیری
+- MDN Web Docs
+- CSS-Tricks
+- W3Schools
+- freeCodeCamp
+
+---
+
+> 📚 **منابع برای مشاهده لیست کامل:**  
+> - **MDN CSS Reference**:  
+  [https://developer.mozilla.org/en-US/docs/Web/CSS/Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference)
+> - **CSS-Tricks Almanac**:  
+  [https://css-tricks.com/almanac/](https://css-tricks.com/almanac/)
+
+---

@@ -1,0 +1,81 @@
+---
+title: "React documents"
+description: "Morteza Aghaei React documents."
+date: "2026-01-01"
+tags: ["Documents", "React"]
+featured: true
+readTime: "7 min read"
+author: "mortezaAghaei"
+thumbnail: "/thumbnails/react.webp"
+dir: "rtl"
+---
+
+# قواعد کامل React و هوک‌های اصلی
+## [**اصول اولیه React**](./ReactBasicRuls.md)  
+- Props و State
+- Virtual DOM و Reconciliation
+- Conditional Rendering `رندر شرطی`
+- Lists و Keys
+- Event Handling `onClick={handle}`  
+## **هوک‌های اصلی (Core Hooks)**
+
+### **1. هوک‌های State**
+- **`useState`** - مدیریت state در کامپوننت‌های تابعی
+- **`useReducer`** - مدیریت state پیچیده‌تر با الگوی reducer
+
+### **2. هوک‌های Effect و Lifecycle**
+- **`useEffect`** - مدیریت side effects و lifecycle
+- **`useLayoutEffect`** - مشابه useEffect اما همگام
+- **`useInsertionEffect`** - برای کتابخانه‌های CSS-in-JS
+
+### **3. هوک‌های Context**
+- **`useContext`** - دسترسی به Context API
+
+### **4. هوک‌های Ref**
+- **`useRef`** - ایجاد mutable ref
+- **`useImperativeHandle`** - سفارشی‌سازی ref
+
+### **5. هوک‌های Performance Optimization**
+- **`useMemo`** - memoization مقادیر
+- **`useCallback`** - memoization توابع
+
+### **6. هوک‌های جدید (React 18+)**
+- **`useTransition`** - بهبود UX برای transitionها
+- **`useDeferredValue`** - تعویق به‌روزرسانی مقادیر
+- **`useId`** - تولید ID یکتا
+- **`useSyncExternalStore`** - اتصال به storeهای خارجی
+- **`useOptimistic`** (آزمایشی) - برای optimistic updates
+
+## **هوک‌های کلاس‌یک (Class Components Lifecycle)**
+- `constructor()`
+- `render()`
+- `componentDidMount()`
+- `componentDidUpdate()`
+- `componentWillUnmount()`
+- `shouldComponentUpdate()`
+- `getDerivedStateFromProps()`
+- `getSnapshotBeforeUpdate()`
+
+## **قوانین و اصول**
+1. **قوانین هوک‌ها** (Rules of Hooks)
+2. **Composition vs Inheritance**
+3. **Lifting State Up**
+4. **One-Way Data Flow**
+5. **Controlled vs Uncontrolled Components**
+
+## **مفاهیم پیشرفته**
+- **Error Boundaries**
+- **Higher-Order Components (HOC)**
+- **Render Props**
+- **Portals**
+- **Profiler API**
+- **Suspense و Lazy Loading**
+
+## **اکوسیستم React**
+- **Routing** (React Router)
+- **State Management** (Redux, Zustand, Context API)
+- **Data Fetching** (React Query, SWR)
+- **Forms** (Formik, React Hook Form)
+- **Styling** (CSS Modules, Styled Components, Tailwind)
+- **Testing** (Jest, React Testing Library)
+- **Server Components** (React 18+)
