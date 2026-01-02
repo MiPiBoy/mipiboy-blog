@@ -1,3 +1,4 @@
+import React from "react";
 import { docs, meta } from "@/.source";
 import { DocsBody } from "fumadocs-ui/page";
 import { loader } from "fumadocs-core/source";
@@ -19,6 +20,17 @@ import { HashScrollHandler } from "@/components/hash-scroll-handler";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+interface BlogData {
+  title: string;
+  description?: string;
+  date?: string;
+  tags?: string[];
+  author?: string;
+  thumbnail?: string;
+  body: React.ComponentType;
+  dir?: string;
 }
 
 const mdxSource = createMDXSource(docs, meta);
@@ -51,8 +63,9 @@ export default async function BlogPost({ params }: PageProps) {
     notFound();
   }
 
-  const MDX = page.data.body;
-  const date = new Date(page.data.date);
+  const data = page.data as BlogData;
+  const MDX = data.body;
+  const date = new Date(data.date!);
   const formattedDate = formatDate(date);
 
   return (
@@ -70,7 +83,7 @@ export default async function BlogPost({ params }: PageProps) {
       </div>
 
       <div className="space-y-4 border-b border-border relative z-10">
-        <div {...((page.data as { dir?: string }).dir === "rtl" && { dir: "rtl" })} className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
+        <div {...(data.dir === "rtl" && { dir: "rtl" })} className="max-w-7xl mx-auto flex flex-col gap-6 p-6">
           <div dir="ltr" className="flex flex-wrap items-center gap-3 gap-y-5 text-sm text-muted-foreground">
             <Button variant="outline" asChild className="h-6 w-6">
               <Link href="/">
@@ -78,9 +91,9 @@ export default async function BlogPost({ params }: PageProps) {
                 <span className="sr-only">Back to all articles</span>
               </Link>
             </Button>
-            {page.data.tags && page.data.tags.length > 0 && (
+            {data.tags && data.tags.length > 0 && (
               <div className="flex flex-wrap gap-3 text-muted-foreground">
-                {page.data.tags.map((tag: string) => (
+                {data.tags.map((tag: string) => (
                   <span
                     key={tag}
                     className="h-6 w-fit px-3 text-sm font-medium bg-muted text-muted-foreground rounded-md border flex items-center justify-center"
@@ -96,24 +109,24 @@ export default async function BlogPost({ params }: PageProps) {
           </div>
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-medium tracking-tighter text-balance">
-            {page.data.title}
+            {data.title}
           </h1>
 
-          {page.data.description && (
+          {data.description && (
             <p className="text-muted-foreground max-w-4xl md:text-lg md:text-balance">
-              {page.data.description}
+              {data.description}
             </p>
           )}
         </div>
       </div>
-      <div className={ `flex relative max-w-7xl mx-auto px-4 md:px-0 z-10` + ((page.data as { dir?: string }).dir === "rtl" ? " flex-row-reverse" : "")}>
+      <div className={ `flex relative max-w-7xl mx-auto px-4 md:px-0 z-10` + (data.dir === "rtl" ? " flex-row-reverse" : "")}>
         <div className="absolute max-w-7xl mx-auto left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] lg:w-full h-full border-x border-border p-0 pointer-events-none" />
         <main className="w-full p-0 overflow-hidden">
-          {page.data.thumbnail && (
+          {data.thumbnail && (
             <div className="relative w-full h-[200px] overflow-hidden object-cover border border-transparent">
               <Image
-                src={page.data.thumbnail}
-                alt={page.data.title}
+                src={data.thumbnail}
+                alt={data.title}
                 fill
                 className="object-cover"
                 priority
@@ -121,7 +134,7 @@ export default async function BlogPost({ params }: PageProps) {
             </div>
           )}
           <div className="p-6 lg:p-10">
-            <div {...((page.data as { dir?: string }).dir === "rtl" && { dir: "rtl" })} className="prose dark:prose-invert max-w-none prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance prose-lg">
+            <div {...(data.dir === "rtl" && { dir: "rtl" })} className="prose dark:prose-invert max-w-none prose-headings:scroll-mt-8 prose-headings:font-semibold prose-a:no-underline prose-headings:tracking-tight prose-headings:text-balance prose-p:tracking-tight prose-p:text-balance prose-lg">
               <DocsBody>
                 <MDX />
               </DocsBody>
@@ -130,15 +143,15 @@ export default async function BlogPost({ params }: PageProps) {
           <div className="mt-10">
             <ReadMoreSection
               currentSlug={[slug]}
-              currentTags={page.data.tags}
+              currentTags={data.tags}
             />
           </div>
         </main>
 
         <aside className="hidden lg:block w-[350px] flex-shrink-0 p-6 lg:p-10 bg-muted/60 dark:bg-muted/20">
           <div className="sticky top-20 space-y-8">
-            {page.data.author && isValidAuthor(page.data.author) && (
-              <AuthorCard author={getAuthor(page.data.author)} />
+            {data.author && isValidAuthor(data.author) && (
+              <AuthorCard author={getAuthor(data.author)} />
             )}
             <div className="border border-border rounded-lg p-6 bg-card">
               <TableOfContents />

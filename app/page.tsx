@@ -27,6 +27,7 @@ const mdxSource = createMDXSource(docs, meta);
 const blogSource = loader({
   baseUrl: "/blog",
   source: {
+    // @ts-expect-error - TypeScript incorrectly infers files as array in this context, but it's actually a function
     files: mdxSource.files(),
   },
 });
