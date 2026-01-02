@@ -4,6 +4,15 @@ import { loader } from "fumadocs-core/source";
 import { createMDXSource } from "fumadocs-mdx";
 import { siteConfig } from "@/lib/site";
 
+interface BlogData {
+  title: string;
+  description?: string;
+  date?: string;
+  tags?: string[];
+  author?: string;
+  thumbnail?: string;
+}
+
 const mdxSource = createMDXSource(docs, meta);
 const blogSource = loader({
   baseUrl: "/blog",
@@ -37,15 +46,16 @@ export async function generateMetadata({
       };
     }
 
+    const data = page.data as BlogData;
     const ogUrl = `${siteConfig.url}/blog/${slug}`;
     const ogImage = `${ogUrl}/opengraph-image`;
 
     return {
-      title: page.data.title,
-      description: page.data.description,
+      title: data.title,
+      description: data.description,
       keywords: [
-        page.data.title,
-        ...(page.data.tags || []),
+        data.title,
+        ...(data.tags || []),
         "Blog",
         "Article",
         "Web Development",
@@ -55,11 +65,11 @@ export async function generateMetadata({
       ],
       authors: [
         {
-          name: page.data.author || "MiPiBoy",
+          name: data.author || "MiPiBoy",
           url: siteConfig.url,
         },
       ],
-      creator: page.data.author || "MiPiBoy",
+      creator: data.author || "MiPiBoy",
       publisher: "MiPiBoy",
       robots: {
         index: true,
@@ -73,28 +83,28 @@ export async function generateMetadata({
         },
       },
       openGraph: {
-        title: page.data.title,
-        description: page.data.description,
+        title: data.title,
+        description: data.description,
         type: "article",
         url: ogUrl,
-        publishedTime: page.data.date,
-        authors: [page.data.author || "MiPiBoy"],
-        tags: page.data.tags,
+        publishedTime: data.date,
+        authors: [data.author || "MiPiBoy"],
+        tags: data.tags,
         images: [
           {
-            url: page.data.thumbnail || ogImage,
+            url: data.thumbnail || ogImage,
             width: 1200,
             height: 630,
-            alt: page.data.title,
+            alt: data.title,
           },
         ],
         siteName: siteConfig.name,
       },
       twitter: {
         card: "summary_large_image",
-        title: page.data.title,
-        description: page.data.description,
-        images: [page.data.thumbnail || ogImage],
+        title: data.title,
+        description: data.description,
+        images: [data.thumbnail || ogImage],
         creator: "@dillionverma",
         site: "@dillionverma",
       },
