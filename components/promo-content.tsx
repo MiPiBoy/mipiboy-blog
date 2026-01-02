@@ -8,8 +8,8 @@ interface PromoContentProps {
 }
 
 export function PromoContent({
-  variant = "desktop",
-  className,
+  // variant = "desktop",
+  // className,
 }: PromoContentProps) {
 
 }
