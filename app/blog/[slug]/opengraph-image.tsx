@@ -4,6 +4,15 @@ import { loader } from "fumadocs-core/source";
 import { createMDXSource } from "fumadocs-mdx";
 import { getAuthor, isValidAuthor, type AuthorKey } from "@/lib/authors";
 
+interface BlogData {
+  title: string;
+  description?: string;
+  date?: string;
+  tags?: string[];
+  author?: string;
+  thumbnail?: string;
+}
+
 export const runtime = "nodejs";
 export const alt = "Blog Post";
 export const size = {
@@ -203,7 +212,8 @@ export default async function Image({ params }: { params: { slug: string } }) {
       return new Response("Blog post not found", { status: 404 });
     }
 
-    const authorKey = page.data.author as string;
+    const data = page.data as BlogData;
+    const authorKey = data.author as string;
     const authorDetails =
       authorKey && isValidAuthor(authorKey)
         ? getAuthor(authorKey as AuthorKey)
@@ -240,9 +250,9 @@ export default async function Image({ params }: { params: { slug: string } }) {
                 height={80}
                 style={styles.logo}
               />
-              <h1 style={styles.title}>{page.data.title}</h1>
-              {page.data.description && (
-                <p style={styles.summary}>{page.data.description}</p>
+              <h1 style={styles.title}>{data.title}</h1>
+              {data.description && (
+                <p style={styles.summary}>{data.description}</p>
               )}
             </div>
             <div style={styles.metaContainer}>
@@ -263,12 +273,12 @@ export default async function Image({ params }: { params: { slug: string } }) {
                   <span>{authorDetails.name}</span>
                 </div>
               )}
-              {authorDetails && page.data.date && (
+              {authorDetails && data.date && (
                 <span style={styles.dotSeparator}>•</span>
               )}
-              {page.data.date && (
+              {data.date && (
                 <p style={{ ...styles.metaBase, ...styles.dateMeta }}>
-                  {formatDate(page.data.date)}
+                  {formatDate(data.date)}
                 </p>
               )}
             </div>
