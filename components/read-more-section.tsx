@@ -47,11 +47,19 @@ export function ReadMoreSection({
   currentSlug,
   currentTags = [],
 }: ReadMoreSectionProps) {
-  const allPages = blogSource.getPages() as BlogPage[];
+  const allPages = blogSource.getPages() as unknown as BlogPage[];
+  // Filter out pages that don't have required fields
+  const validPages = allPages.filter(
+    (page): page is BlogPage =>
+      page.data &&
+      typeof page.data.title === "string" &&
+      typeof page.data.date === "string" &&
+      typeof page.data.description === "string"
+  );
 
   const currentUrl = `/blog/${currentSlug.join("/")}`;
 
-  const otherPosts = allPages
+  const otherPosts = validPages
     .filter((page) => page.url !== currentUrl)
     .map((page) => {
       const tagOverlap = currentTags.filter((tag) =>
