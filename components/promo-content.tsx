@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 // import React from "react";
 // import { cn } from "@/lib/utils";
 
@@ -11,5 +10,5 @@ export function PromoContent({
   // variant = "desktop",
   // className,
 }: PromoContentProps) {
-
+  return null;
 }
